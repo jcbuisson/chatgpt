@@ -1,0 +1,28 @@
+body {
+   font-family: Arial, sans-serif;
+   text-align: center;
+   margin: 20px;
+}
+
+.dropzone {
+   border: 2px dashed #aaa;
+   border-radius: 10px;
+   padding: 20px;
+   margin: 20px auto;
+   width: 400px;
+   cursor: pointer;
+}
+
+.dropzone.hover {
+   border-color: #000;
+   background-color: #f0f0f0;
+}
+
+#message {
+   margin-top: 20px;
+   color: green;
+}
+
+h2 {
+   color: #999;
+}

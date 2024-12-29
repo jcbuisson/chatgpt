@@ -36,7 +36,9 @@ app.use('/uploads', express.static('uploads'))
 
 // Routes
 app.get('/', (req, res) => {
-   res.render('index') // Render the EJS file
+   res.render('index', {
+      data: [],
+   })
 })
 
 Promise.withResolvers = function () {
@@ -78,9 +80,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
          // console.log('Réponse:', response)
 
          // const data = JSON.parse(response.data.choices[0].message.content)
-         // const data = {}
+         // res.send(data)
 
-         res.send("OK")
+         res.send('OK')
       } catch (error) {
          return res.status(500).send(error.message)
       }

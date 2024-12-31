@@ -53,8 +53,6 @@ Promise.withResolvers = function () {
 app.post('/upload', upload.single('file'), async (req, res) => {
    if (req.file) {
       // file uploaded successfully
-      // const filePath = `/Users/chris/workspaces/PORTFOLIO/chatgpt/uploads/${req.file.filename}`
-      // const buffer = fs.readFileSync(filePath)
       const buffer = fs.readFileSync(req.file.path)
       const pdfData = await pdf(buffer)
       console.log('Extracted Text:', pdfData.text)

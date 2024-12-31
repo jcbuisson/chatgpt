@@ -13,7 +13,7 @@
    <!-- hidden form, to force page reload with response from POST /upload -->
    <form id="hiddenForm" method="POST" action="/upload">
       <div id="dropzone" class="dropzone">
-         <p>glissez-déposez ici ou cliquez pour déposer un fichier PDF d’analyse de sang...</p>
+         <p>glissez-déposez ici ou cliquez pour déposer un fichier PDF d’analyse de sang... (<a href="/analyses2024-06.pdf" target="_blank">exemple</a>)</p>
          <input type="file" id="fileInput" name="file" accept="application/pdf" hidden>
       </div>
    </form>
@@ -90,17 +90,19 @@
 
    // Upload file to server
    async function uploadFile(file) {
-      try {
-         const formData = new FormData()
-         formData.append('file', file)
+      hiddenForm.submit()
+      
+      // try {
+      //    const formData = new FormData()
+      //    formData.append('file', file)
 
-         const data = await fetch('/upload', {
-            method: 'POST',
-            body: formData,
-         })
-         console.log('data', data)
-      } catch (error) {
-         message.textContent = `Error: ${error.message}`
-      }
+      //    const data = await fetch('/upload', {
+      //       method: 'POST',
+      //       body: formData,
+      //    })
+      //    console.log('data', data)
+      // } catch (error) {
+      //    message.textContent = `Error: ${error.message}`
+      // }
    }
 </script>

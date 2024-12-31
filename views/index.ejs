@@ -9,14 +9,20 @@
 <body>
    <h1>API de ChatGPT</h1>
    <h2>Extraction de données d'un PDF</h2>
-   <div id="dropzone" class="dropzone">
-      <p>glissez-déposez ici ou cliquez pour déposer un fichier PDF d’analyse de sang...</p>
-      <input type="file" id="fileInput" name="file" accept="application/pdf" hidden>
-   </div>
+
+   <!-- hidden form, to force page reload with response from POST /upload -->
+   <form id="hiddenForm" method="POST" action="/upload">
+      <div id="dropzone" class="dropzone">
+         <p>glissez-déposez ici ou cliquez pour déposer un fichier PDF d’analyse de sang...</p>
+         <input type="file" id="fileInput" name="file" accept="application/pdf" hidden>
+      </div>
+   </form>
+
    <form method="POST" action="/upload" enctype="multipart/form-data">
       <input type="file" name="file" accept="application/pdf">
       <button type="submit">GO!</button>
    </form>
+
    <div id="message"></div>
 
    <% if (data?.length) { %>
@@ -48,6 +54,7 @@
 
 <script>
    const dropzone = document.getElementById('dropzone')
+   const hiddenForm = document.getElementById('hiddenForm')
    const fileInput = document.getElementById('fileInput')
    const message = document.getElementById('message')
    const table = document.getElementById('table')

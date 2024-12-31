@@ -13,6 +13,10 @@
       <p>glissez-déposez ici ou cliquez pour déposer un fichier PDF d’analyse de sang...</p>
       <input type="file" id="fileInput" name="file" accept="application/pdf" hidden>
    </div>
+   <form method="POST" action="/upload" enctype="multipart/form-data">
+      <input type="file" name="file" accept="application/pdf">
+      <button type="submit">GO!</button>
+   </form>
    <div id="message"></div>
 
    <% if (data) { %>
@@ -101,10 +105,11 @@
          const formData = new FormData()
          formData.append('file', file)
 
-         await fetch('/upload', {
+         const data = await fetch('/upload', {
             method: 'POST',
             body: formData,
          })
+         console.log('data', data)
       } catch (error) {
          message.textContent = `Error: ${error.message}`
       }

@@ -82,7 +82,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
          // const data = JSON.parse(response.data.choices[0].message.content)
          // res.send(data)
 
-         res.send('OK')
+         // res.send({ rep: 'OK' })
+         res.render("index", { data: [] })
       } catch (error) {
          return res.status(500).send(error.message)
       }

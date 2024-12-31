@@ -59,8 +59,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       console.log('Extracted Text:', pdfData.text)
 
       try {
-         const prompt = `Extrait les valeurs de cholestérol et glycémie de l'analyse de sang suivante, et renvoie uniquement une structure JSON avec le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
-         // const prompt = `Donne-moi un proverbe au hasard`
+         const prompt = `Extrait toutes les mesures de l'analyse de sang suivante, et renvoie uniquement une liste JSON composée d'objets comportant le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
+         // const prompt = `Extrait les mesures de cholestérol et glycémie de l'analyse de sang suivante, et renvoie uniquement une liste JSON composée d'objets comportant le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
          const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4o-mini',
             messages: [
@@ -68,7 +68,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
                { role: 'user', content: prompt }
             ],
             temperature: 0.7, // Contrôle de la créativité des réponses
-            max_tokens: 300 // Limite de mots dans la réponse
+            // max_tokens: 300 // Limite de mots dans la réponse
          }, {
             headers: {
                'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
          })
  
          const answer = response.data.choices[0].message.content
-         // console.log('answer', answer)
+         console.log('answer', answer)
          const data = JSON.parse(answer)
          console.log('data', data)
 

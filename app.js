@@ -55,11 +55,11 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       // file uploaded successfully
       const filePath = `/Users/chris/workspaces/PORTFOLIO/chatgpt/uploads/${req.file.filename}`
       const buffer = fs.readFileSync(filePath)
-      const data = await pdf(buffer)
-      console.log('Extracted Text:', data.text)
+      const pdfData = await pdf(buffer)
+      console.log('Extracted Text:', pdfData.text)
 
       try {
-         const prompt = `Extrait les valeurs de cholestérol et glycémie de l'analyse de sang suivante, et renvoie uniquement une structure JSON avec le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'key') et la norme (clé: 'norm'), sans les annotations markdown : ${data.text}`
+         const prompt = `Extrait les valeurs de cholestérol et glycémie de l'analyse de sang suivante, et renvoie uniquement une structure JSON avec le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
          // const prompt = `Donne-moi un proverbe au hasard`
          const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4o-mini',
@@ -76,14 +76,12 @@ app.post('/upload', upload.single('file'), async (req, res) => {
             }
          })
  
-         console.log('Réponse:', response.data.choices[0].message.content)
-         // console.log('Réponse:', response)
+         const answer = response.data.choices[0].message.content
+         // console.log('answer', answer)
+         const data = JSON.parse(answer)
+         console.log('data', data)
 
-         // const data = JSON.parse(response.data.choices[0].message.content)
-         // res.send(data)
-
-         // res.send({ rep: 'OK' })
-         res.render("index", { data: [] })
+         res.render("index", { data })
       } catch (error) {
          return res.status(500).send(error.message)
       }

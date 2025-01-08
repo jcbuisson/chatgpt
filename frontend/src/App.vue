@@ -34,7 +34,7 @@
    </template>
 
    <jcb-spinner ref="spinner">
-      <p class="spinner-text">Extraction des valeurs...</p>
+      <p class="spinner-text">Extraction des valeurs par ChatGPT...</p>
    </jcb-spinner>
 
 </template>
@@ -156,7 +156,7 @@ jcb-spinner {
 
 .spinner-text {
    color: white;
-   font-weight: 500;
-   font-size: 24px;
+   font-weight: 300;
+   font-size: 18px;
 }
 </style>

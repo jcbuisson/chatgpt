@@ -3,7 +3,7 @@
    <h2>Extraction de données d'un PDF</h2>
 
    <jcb-upload class="dropzone" chunksize="32768" accept="application/pdf, image/*" @upload-start="onUploadStart" @upload-chunk="onUploadChunk" @upload-end="onUploadEnd">
-      <p>glissez-déposez ou cliquez ici pour charger une analyse de sang au format PDF... (<a href="/analyses2024-06.pdf" target="_blank">exemple</a>)</p>
+      <p>glissez-déposez ou cliquez ici pour charger une analyse de sang au format PDF... (<a href="/static/analyses2024-06.pdf" target="_blank">exemple</a>)</p>
    </jcb-upload>
 
    <div class="message">{{ message }}</div>

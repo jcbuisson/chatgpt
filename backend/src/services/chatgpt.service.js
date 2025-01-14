@@ -5,24 +5,25 @@ import pdf from 'pdf-extraction'
 
 export default function (app) {
 
+   // dictionary associating the uuid for a pdf file and the arraybuffer of its contents
    const id2buffer = {}
 
    app.createService('chatgpt', {
 
+      // add `chunk` to arraybuffer of pdf `id`
       uploadChunk: async (id, chunk) => {
-         console.log('chunk')
          if (!id2buffer[id]) id2buffer[id] = Buffer.alloc(0)
          id2buffer[id] = Buffer.concat([id2buffer[id], Buffer.from(chunk)])
       },
       
       extractMeasures: async (id) => {
-         // const filePath = '/Users/chris/Downloads/analyses2024-06.pdf'
-         // const filePath = '/Users/chris/Downloads/analyse_foin.pdf'
-         // const buffer = fs.readFileSync(filePath)
          const buffer = id2buffer[id]
+         // parse buffer with `pdf-extraction`
          const pdfData = await pdf(buffer)
-         console.log('Extracted Text:', pdfData.text)
+         // free arraybuffer
+         delete id2buffer[id]
    
+         // `pdfData.text` is the extracted text from pdf
          const prompt = `Extrait toutes les mesures de l'analyse de sang suivante, et renvoie uniquement une liste JSON composée d'objets comportant le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
          // const prompt = `Extrait les mesures de cholestérol et glycémie de l'analyse de sang suivante, et renvoie uniquement une liste JSON composée d'objets comportant le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
          // const prompt = `Extrait les mesures de l'analyse de foin suivante, et renvoie uniquement une liste JSON composée d'objets comportant le nom (clé: 'name'), la valeur (clé: 'value'), l'unité (clé: 'unit') et la norme (clé: 'norm'), sans les annotations markdown : ${pdfData.text}`
@@ -42,10 +43,7 @@ export default function (app) {
          })
    
          const answer = response.data.choices[0].message.content
-         console.log('answer', answer)
          const measures = JSON.parse(answer)
-         console.log('measures', measures)
-
          return measures
       },
    })

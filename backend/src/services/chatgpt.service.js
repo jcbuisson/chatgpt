@@ -16,6 +16,7 @@ export default function (app) {
          id2buffer[id] = Buffer.concat([id2buffer[id], Buffer.from(chunk)])
       },
       
+      // called when buffer for pdf `id` is complete: parse it with `pdf-extraction` and extract measures with ChatGPT
       extractMeasures: async (id) => {
          const buffer = id2buffer[id]
          // parse buffer with `pdf-extraction`
